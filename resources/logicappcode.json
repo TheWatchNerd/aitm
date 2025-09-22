@@ -1,0 +1,143 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/schemas/2016-06-01/Microsoft.Logic.json",
+        "contentVersion": "1.0.0.0",
+        "triggers": {
+            "manual": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                    "method": "GET",
+                    "schema": {}
+                }
+            }
+        },
+        "actions": {
+            "Check_URL_for_phishing": {
+                "actions": {
+                    "Response_WARNING": {
+                        "type": "Response",
+                        "inputs": {
+                            "statusCode": 200,
+                            "headers": {
+                                "Cache-Control": "no-store, max-age=0"
+                            },
+                            "body": "@body('Get_warning_image')"
+                        }
+                    },
+                    "HTTP_send_to_Sentinel": {
+                        "runAfter": {
+                            "Response_WARNING": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Http",
+                        "inputs": {
+                            "uri": "__INGESTION_URI__",
+                            "method": "POST",
+                            "body": {
+                                "TimeGenerated": "@utcNow()",
+                                "Accept_s": "@{triggerOutputs()?['headers']['Accept']}",
+                                "AcceptEncoding_s": "@{triggerOutputs()?['headers']['Accept-Encoding']}",
+                                "AcceptLanguage_s": "@{triggerOutputs()?['headers']['Accept-Language']}",
+                                "Host_s": "@{triggerOutputs()?['headers']['Host']}",
+                                "MaxForwards_s": "@{triggerOutputs()?['headers']['Max-Forwards']}",
+                                "Referer_s": "@{triggerOutputs()?['headers']['Referer']}",
+                                "UserAgent_s": "@{triggerOutputs()?['headers']['User-Agent']}",
+                                "sec_ch_ua_platform_s": "@{triggerOutputs()?['headers']['sec-ch-ua-platform']}",
+                                "sec_ch_ua_s": "@{triggerOutputs()?['headers']['sec-ch-ua']}",
+                                "sec_ch_ua_mobile_s": "@{triggerOutputs()?['headers']['sec-ch-ua-mobile']}",
+                                "SecFetchSite_s": "@{triggerOutputs()?['headers']['Sec-Fetch-Site']}",
+                                "SecFetchMode_s": "@{triggerOutputs()?['headers']['Sec-Fetch-Mode']}",
+                                "SecFetchDest_s": "@{triggerOutputs()?['headers']['Sec-Fetch-Dest']}",
+                                "SecFetchStorageAccess_s": "@{triggerOutputs()?['headers']['Sec-Fetch-Storage-Access']}",
+                                "X_ARR_LOG_ID_s": "@{triggerOutputs()?['headers']['X-ARR-LOG-ID']}",
+                                "CLIENT_IP_s": "@{triggerOutputs()?['headers']['CLIENT-IP']}",
+                                "DISGUISED_HOST_s": "@{triggerOutputs()?['headers']['DISGUISED-HOST']}",
+                                "X_SITE_DEPLOYMENT_ID_s": "@{triggerOutputs()?['headers']['DISGUISED-HOST']}",
+                                "WAS_DEFAULT_HOSTNAME_s": "@{triggerOutputs()?['headers']['WAS-DEFAULT-HOSTNAME']}",
+                                "X_Forwarded_Proto_s": "@{triggerOutputs()?['headers']['X-Forwarded-Proto']}",
+                                "X_AppService_Proto_s": "@{triggerOutputs()?['headers']['X-AppService-Proto']}",
+                                "X_ARR_SSL_s": "@{triggerOutputs()?['headers']['X-ARR-SSL']}",
+                                "X_Forwarded_TlsVersion_s": "@{triggerOutputs()?['headers']['X-Forwarded-TlsVersion']}",
+                                "X_Forwarded_For_s": "@{triggerOutputs()?['headers']['X-Forwarded-For']}",
+                                "X_Original_URL_s": "@{triggerOutputs()?['headers']['X-Original-URL']}",
+                                "X_WAWS_Unencoded_URL_s": "@{triggerOutputs()?['headers']['X-WAWS-Unencoded-URL']}"
+                            },
+                            "authentication": {
+                                "type": "ManagedServiceIdentity",
+                                "identity": "__UAMI_ID__",
+                                "audience": "https://monitor.azure.com"
+                            }
+                        },
+                        "runtimeConfiguration": {
+                            "contentTransfer": {
+                                "transferMode": "Chunked"
+                            }
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Get_warning_image": [
+                        "Succeeded"
+                    ]
+                },
+                "else": {
+                    "actions": {
+                        "Terminate_because_no_phishing": {
+                            "type": "Terminate",
+                            "inputs": {
+                                "runStatus": "Succeeded"
+                            }
+                        }
+                    }
+                },
+                "expression": {
+                    "and": [
+                        {
+                            "not": {
+                                "equals": [
+                                    "@triggerOutputs()?['headers']['referer']",
+                                    "https://login.microsoftonline.com/"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "type": "If"
+            },
+            "Get_warning_image": {
+                "runAfter": {},
+                "metadata": {
+                    "JTJmaW1hZ2VzJTJmd2Fybi5wbmc=": "/images/warn.png"
+                },
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['azureblob']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('__STORAGE_ACCOUNT__'))}/files/@{encodeURIComponent(encodeURIComponent('JTJmaW1hZ2VzJTJmd2Fybi5wbmc='))}/content",
+                    "queries": {
+                        "inferContentType": true
+                    }
+                }
+            }
+        },
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "type": "Object",
+                "defaultValue": {}
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "type": "Object",
+            "value": {}
+        }
+    }
+}

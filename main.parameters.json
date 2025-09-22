@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": { "value": "westeurope" },
+    "workspaceName": { "value": "sqn-sentinel-01" },
+    "workspaceResourceGroup": { "value": "rg-security-01" },
+    "dcrName": { "value": "dcr-aitm-dev-001" },
+    "identityName": { "value": "uami-headers-ingest" },
+    "logicAppName": { "value": "la-aitm-dev-001" },
+    "storageAccountName": { "value": "stimgaitm101" },
+    "containerName": { "value": "images" },
+    "customTableName": { "value": "aitm" },
+    "blobConnectionName": { "value": "con-aitm-dev-001" }
+  }
+}
