@@ -93,22 +93,66 @@
                     }
                 },
                 "expression": {
-                    "and": [
+                    "or": [
                         {
-                            "not": {
-                                "or": [
-                                    { "equals": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", "login.microsoft.com" ] },
-                                    { "equals": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", "login.microsoftonline.com" ] },
-                                    { "equals": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", "login.live.com" ] },
-                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".aadcdn.msftauth.net" ] },
-                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".aadcdn.msftauthimages.net" ] },
-                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".aadcdn.msauthimages.net" ] },
-                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".logincdn.msftauth.net" ] },
-                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".msauth.net" ] },
-                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".aadcdn.microsoftonline-p.com" ] },
-                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".microsoftonline-p.com" ] }
-                                ]
-                            }
+                            "contains": [
+                                "@triggerOutputs()?['headers']['referer']",
+                                "login.microsoft.com"
+                            ]
+                        },
+                        {
+                            "equals": [
+                                "@triggerOutputs()?['headers']['referer']",
+                                "login.microsoftonline.com"
+                            ]
+                        },
+                        {
+                            "equals": [
+                                "@triggerOutputs()?['headers']['referer']",
+                                "login.live.com"
+                            ]
+                        },
+                        {
+                            "equals": [
+                                "@triggerOutputs()?['headers']['referer']",
+                                ".aadcdn.msftauth.net"
+                            ]
+                        },
+                        {
+                            "equals": [
+                                "@triggerOutputs()?['headers']['referer']",
+                                ".aadcdn.msftauthimages.net"
+                            ]
+                        },
+                        {
+                            "equals": [
+                                "@triggerOutputs()?['headers']['referer']",
+                                ".aadcdn.msauthimages.net"
+                            ]
+                        },
+                        {
+                            "equals": [
+                                "@triggerOutputs()?['headers']['referer']",
+                                ".logincdn.msftauth.net"
+                            ]
+                        },
+                        {
+                            "equals": [
+                                "@triggerOutputs()?['headers']['referer']",
+                                ".msauth.net"
+                            ]
+                        },
+                        {
+                            "equals": [
+                                "@triggerOutputs()?['headers']['referer']",
+                                ".aadcdn.microsoftonline-p.com"
+                            ]
+                        },
+                        {
+                            "equals": [
+                                "@triggerOutputs()?['headers']['referer']",
+                                ".microsoftonline-p.com"
+                            ]
                         }
                     ]
                 },
