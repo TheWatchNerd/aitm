@@ -1,4 +1,4 @@
-# AI Threat Monitoring Sample (Infrastructure as Code)
+# AiTM Threat Monitoring Sample (Infrastructure as Code)
 
 This repository deploys a sample Azure environment that:
 
