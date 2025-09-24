@@ -93,7 +93,7 @@
                     }
                 },
                 "expression": {
-                    "or": [
+                   "or": [
                         {
                             "contains": [
                                 "@triggerOutputs()?['headers']['referer']",
@@ -101,55 +101,55 @@
                             ]
                         },
                         {
-                            "equals": [
+                            "contains": [
                                 "@triggerOutputs()?['headers']['referer']",
                                 "login.microsoftonline.com"
                             ]
                         },
                         {
-                            "equals": [
+                            "contains": [
                                 "@triggerOutputs()?['headers']['referer']",
                                 "login.live.com"
                             ]
                         },
                         {
-                            "equals": [
+                            "contains": [
                                 "@triggerOutputs()?['headers']['referer']",
                                 ".aadcdn.msftauth.net"
                             ]
                         },
                         {
-                            "equals": [
+                            "contains": [
                                 "@triggerOutputs()?['headers']['referer']",
                                 ".aadcdn.msftauthimages.net"
                             ]
                         },
                         {
-                            "equals": [
+                            "contains": [
                                 "@triggerOutputs()?['headers']['referer']",
                                 ".aadcdn.msauthimages.net"
                             ]
                         },
                         {
-                            "equals": [
+                            "contains": [
                                 "@triggerOutputs()?['headers']['referer']",
                                 ".logincdn.msftauth.net"
                             ]
                         },
                         {
-                            "equals": [
+                            "contains": [
                                 "@triggerOutputs()?['headers']['referer']",
                                 ".msauth.net"
                             ]
                         },
                         {
-                            "equals": [
+                            "contains": [
                                 "@triggerOutputs()?['headers']['referer']",
                                 ".aadcdn.microsoftonline-p.com"
                             ]
                         },
                         {
-                            "equals": [
+                            "contains": [
                                 "@triggerOutputs()?['headers']['referer']",
                                 ".microsoftonline-p.com"
                             ]
