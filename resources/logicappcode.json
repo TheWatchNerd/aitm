@@ -96,9 +96,17 @@
                     "and": [
                         {
                             "not": {
-                                "equals": [
-                                    "@triggerOutputs()?['headers']['referer']",
-                                    "https://login.microsoftonline.com/"
+                                "or": [
+                                    { "equals": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", "login.microsoft.com" ] },
+                                    { "equals": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", "login.microsoftonline.com" ] },
+                                    { "equals": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", "login.live.com" ] },
+                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".aadcdn.msftauth.net" ] },
+                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".aadcdn.msftauthimages.net" ] },
+                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".aadcdn.msauthimages.net" ] },
+                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".logincdn.msftauth.net" ] },
+                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".msauth.net" ] },
+                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".aadcdn.microsoftonline-p.com" ] },
+                                    { "endsWith": [ "@split(triggerOutputs()?['headers']['referer'],'/')[2]", ".microsoftonline-p.com" ] }
                                 ]
                             }
                         }
